@@ -657,8 +657,7 @@ export default function ContactPage() {
             <div className="scroll-animate">
               <h2 className="text-4xl font-bold text-slate-900 mb-6">Request a Quote</h2>
               <p className="text-lg text-slate-600 mb-8">
-                Fill out the form below and we'll get back to you within 24 hours with a detailed quote for your
-                project.
+                Fill out the form below and we'll get back to you within 24 hours with a detailed quote for your project.
               </p>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
