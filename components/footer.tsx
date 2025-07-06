@@ -322,8 +322,8 @@ export function Footer() {
                 </span>
               </Link>
               <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                Building excellence, one project at a time. Your trusted construction partner for over 15 years,
-                delivering quality craftsmanship and innovative solutions.
+                Building excellence, one project at a time. Your trusted construction partner for over 10 years,
+                delivering quality building and innovative solutions.
               </p>
 
               {/* Newsletter Signup */}
@@ -345,7 +345,7 @@ export function Footer() {
                   { icon: Facebook, href: "#", label: "Facebook" },
                   { icon: Twitter, href: "#", label: "Twitter" },
                   { icon: Instagram, href: "#", label: "Instagram" },
-                  { icon: Linkedin, href: "#", label: "LinkedIn" },
+                  
                 ].map((social, index) => (
                   <a
                     key={index}
@@ -366,10 +366,8 @@ export function Footer() {
                 {[
                   { name: "Home", href: "/" },
                   { name: "About Us", href: "/about" },
-                  { name: "Our Projects", href: "#" },
-                  { name: "Testimonials", href: "#" },
-                  { name: "Careers", href: "#" },
-                  { name: "Blog", href: "#" },
+                  { name: "Our Projects", href: "/services" },
+                  { name: "Products", href: "/products" },
                 ].map((link, index) => (
                   <li key={index}>
                     <Link href={link.href} className="nav-item text-slate-300 hover:text-orange-400 block">
@@ -409,8 +407,8 @@ export function Footer() {
                   {
                     icon: Phone,
                     title: "Call Us",
-                    info: "+1 (555) 123-4567",
-                    href: "tel:+15551234567",
+                    info: "0791377076",
+                    href: "tel:+254791377076",
                   },
                   {
                     icon: Mail,
@@ -421,7 +419,7 @@ export function Footer() {
                   {
                     icon: MapPin,
                     title: "Visit Us",
-                    info: "123 Construction Ave\nBuilding City, BC 12345",
+                    info: "Roisambu,Nairobi Kenya",
                     href: "#",
                   },
                   {

@@ -61,7 +61,7 @@ export default function ServicesPage() {
       title: "Construction Process",
       description: "Professional Building Techniques",
       fullDescription:
-        "Watch our expert team demonstrate professional construction techniques and quality craftsmanship. This video showcases our attention to detail and commitment to excellence in every project.",
+        "Watch our expert team demonstrate professional construction techniques. This video showcases our attention to detail and commitment to excellence in every project.",
       size: "5.97 MB",
       duration: "Construction Time-lapse",
     },
@@ -72,7 +72,7 @@ export default function ServicesPage() {
       title: "Expert Craftsmanship",
       description: "Detailed Construction Work",
       fullDescription:
-        "See our skilled craftsmen at work, demonstrating the precision and expertise that sets BuildCraft apart in the construction industry. Every detail matters in our approach to building excellence.",
+        "See our team at work, demonstrating the precision and expertise that sets BuildCraft apart in the construction industry. Every detail matters in our approach to building excellence.",
       size: "6.48 MB",
       duration: "Professional Showcase",
     },
@@ -523,8 +523,8 @@ export default function ServicesPage() {
               <p className="text-gray-300 mb-2">{videoData[modalVideo].description}</p>
               <p className="text-gray-400 text-sm mb-2">{videoData[modalVideo].fullDescription}</p>
               <div className="flex items-center gap-4 text-xs text-gray-500">
-                <span>Size: {videoData[modalVideo].size}</span>
-                <span>•</span>
+                {/*<span>Size: {videoData[modalVideo].size}</span>
+                <span>•</span>*/}
                 <span>{videoData[modalVideo].duration}</span>
               </div>
             </div>

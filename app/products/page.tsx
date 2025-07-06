@@ -489,7 +489,7 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4 text-center relative">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-6xl md:text-7xl font-bold mb-6">
-              Premium <span className="gradient-text">Building Stones</span>
+              View <span className="gradient-text">Our Products</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-relaxed">
               High-quality natural and engineered stones for all your construction and design needs
@@ -520,7 +520,7 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 scroll-animate">
             <span className="text-orange-500 font-semibold text-lg mb-2 block">Transformation Magic</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Stone Applications</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Premium Building Stones</h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               See how our premium stones transform spaces into stunning architectural masterpieces
             </p>
@@ -862,7 +862,7 @@ export default function ProductsPage() {
                 <h3 className="text-2xl font-bold text-slate-900 mb-4">Why Our Stones Stand Out</h3>
                 <div className="space-y-4">
                   {[
-                    { icon: Truck, text: "Free delivery within 50 miles" },
+                    { icon: Truck, text: "Free delivery within Nairobi" },
                     { icon: Shield, text: "5-year warranty on all products" },
                     { icon: Award, text: "Industry-leading quality standards" },
                     { icon: CheckCircle, text: "Professional installation support" },

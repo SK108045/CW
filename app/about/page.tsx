@@ -95,7 +95,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">About BuildCraft</h1>
           <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto">
-            Building excellence for over 15 years with passion, precision, and unwavering commitment to quality
+            Building excellence for over 10 years with passion, precision, and unwavering commitment to quality
           </p>
         </div>
       </section>
@@ -107,9 +107,9 @@ export default function AboutPage() {
             <div className="scroll-animate">
               <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Story</h2>
               <p className="text-lg text-slate-600 mb-6">
-                Founded in 2009, BuildCraft began as a small family-owned construction company with a simple mission: to
-                build exceptional structures that stand the test of time. What started as a two-person operation has
-                grown into a trusted team of over 50 skilled professionals.
+                Founded in 2009, BuildCraft began as a construction company with a simple mission: <strong>to
+                build exceptional structures that stand the test of time</strong>. What started as a two-person operation has
+                grown into a trusted team of skilled professionals.
               </p>
               <p className="text-lg text-slate-600 mb-6">
                 Our journey has been marked by countless successful projects, from residential homes to commercial

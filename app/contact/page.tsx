@@ -164,9 +164,9 @@ export default function ContactPage() {
               {
                 icon: Phone,
                 title: "Call Us",
-                info: "+1 (555) 123-4567",
+                info: "0791377076",
                 desc: "Mon-Fri 8AM-6PM",
-                action: "tel:+15551234567",
+                action: "tel:+254791377076",
               },
               {
                 icon: Mail,
@@ -178,8 +178,8 @@ export default function ContactPage() {
               {
                 icon: MapPin,
                 title: "Visit Us",
-                info: "123 Construction Ave",
-                desc: "Building City, BC 12345",
+                info: "Roisambu",
+                desc: "Nairobi, Kenya",
                 action: "#",
               },
               {
@@ -245,7 +245,7 @@ export default function ContactPage() {
                       value={formData.lastName}
                       onChange={(e) => handleInputChange("lastName", e.target.value)}
                       className="input-focus"
-                      placeholder="Doe"
+                      placeholder="Luke"
                     />
                   </div>
                 </div>
@@ -273,7 +273,7 @@ export default function ContactPage() {
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
                     className="input-focus"
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="0791377076"
                   />
                 </div>
                 <div>
@@ -344,10 +344,12 @@ export default function ContactPage() {
                     Need urgent construction repairs or emergency services? We offer 24/7 emergency response for
                     critical situations.
                   </p>
+                  <a href="tel:+254791377076" className="block mb-4">
                   <Button className="bg-orange-500 hover:bg-orange-600 button-hover">
                     <Phone className="mr-2 h-4 w-4" />
                     Emergency Hotline
                   </Button>
+                  </a>
                 </CardContent>
               </Card>
             </div>
@@ -410,24 +412,31 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16 scroll-animate">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">Visit Our Office</h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Stop by our showroom to see our building stone samples and discuss your project in person
-            </p>
-          </div>
-          <div className="bg-slate-200 h-96 rounded-lg flex items-center justify-center scroll-animate">
-            <div className="text-center">
-              <MapPin className="h-16 w-16 text-slate-400 mx-auto mb-4" />
-              <p className="text-slate-600 text-lg">Interactive Map Coming Soon</p>
-              <p className="text-slate-500">123 Construction Ave, Building City, BC 12345</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      
+{/* Map Section */}
+<section className="py-20 bg-gray-50">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-16 scroll-animate">
+      <h2 className="text-4xl font-bold text-slate-900 mb-4">Visit Our Office</h2>
+      <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+        Stop by our showroom to see our building stone samples and discuss your project in person
+      </p>
+    </div>
+    <div className="scroll-animate w-full overflow-hidden rounded-lg">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9633.960416055763!2d36.88073949910891!3d-1.224441175240348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f15f50d1a0797%3A0x534c1e7fc0deb560!2sRoysambu%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1751818605590!5m2!1sen!2ske"
+        width="100%"
+        height="450"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        className="w-full"
+      />
+    </div>
+  </div>
+</section>
+
     </div>
   )
 }
