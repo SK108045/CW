@@ -1,11 +1,35 @@
 "use client"
 
-import { Building2, Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin, ArrowUp } from "lucide-react"
+import type React from "react"
+
+import { Building2, Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, ArrowUp } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { initializeApp, getApps } from "firebase/app"
+import { getDatabase, ref, push } from "firebase/database"
+
+// --- Initialize Firebase (inline config) ---
+const firebaseConfig = {
+  apiKey: "AIzaSyAyVeOHXVqSMNn0XW9G5dH17u_CBixW7HE",
+  authDomain: "test-3a5ee.firebaseapp.com",
+  databaseURL: "https://test-3a5ee-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "test-3a5ee",
+  storageBucket: "test-3a5ee.appspot.com",
+  messagingSenderId: "1016110405826",
+  appId: "1:1016110405826:web:e97a8598bde3493c0d435b",
+}
+
+// Avoid re-init on HMR
+if (!getApps().length) {
+  initializeApp(firebaseConfig)
+}
+const db = getDatabase()
 
 export function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [newsletterEmail, setNewsletterEmail] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState("")
 
   useEffect(() => {
     // Intersection Observer for scroll animations
@@ -41,6 +65,68 @@ export function Footer() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  // Email validation function
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  // Sanitize email input
+  const sanitizeEmail = (email: string): string => {
+    return email
+      .replace(/[^a-zA-Z0-9@.\-_]/g, "") // Only valid email characters
+      .toLowerCase()
+      .trim()
+  }
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!newsletterEmail.trim()) {
+      setSubmitMessage("Please enter your email address")
+      setTimeout(() => setSubmitMessage(""), 3000)
+      return
+    }
+
+    if (!validateEmail(newsletterEmail)) {
+      setSubmitMessage("Please enter a valid email address")
+      setTimeout(() => setSubmitMessage(""), 3000)
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      const newsletterRef = ref(db, "newsletter-subscriptions")
+      await push(newsletterRef, {
+        email: newsletterEmail,
+        subscribedAt: new Date().toISOString(),
+        timestamp: Date.now(),
+        source: "footer-newsletter",
+        userAgent: navigator.userAgent,
+      })
+
+      setSubmitMessage("✅ Successfully subscribed!")
+      setNewsletterEmail("")
+      setTimeout(() => setSubmitMessage(""), 5000)
+    } catch (err) {
+      console.error("Newsletter subscription error:", err)
+      setSubmitMessage("❌ Something went wrong. Please try again.")
+      setTimeout(() => setSubmitMessage(""), 5000)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitizedEmail = sanitizeEmail(e.target.value)
+    setNewsletterEmail(sanitizedEmail)
+
+    // Clear any existing message when user starts typing
+    if (submitMessage) {
+      setSubmitMessage("")
+    }
   }
 
   return (
@@ -280,15 +366,72 @@ export function Footer() {
           color: rgba(255, 255, 255, 0.6);
         }
 
+        .newsletter-input.error {
+          border-color: #ef4444;
+          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+
         .newsletter-button {
           background: linear-gradient(135deg, #f97316, #fb923c);
           transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .newsletter-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .newsletter-button:hover::before {
+          left: 100%;
         }
 
         .newsletter-button:hover {
           background: linear-gradient(135deg, #ea580c, #f97316);
           transform: translateY(-2px);
           box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+        }
+
+        .newsletter-button:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .newsletter-message {
+          font-size: 0.875rem;
+          margin-top: 0.5rem;
+          transition: all 0.3s ease;
+        }
+
+        .newsletter-message.success {
+          color: #10b981;
+        }
+
+        .newsletter-message.error {
+          color: #ef4444;
+        }
+
+        .loading-spinner {
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-top: 2px solid #ffffff;
+          border-radius: 50%;
+          width: 16px;
+          height: 16px;
+          animation: spin 1s linear infinite;
+          margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
 
@@ -329,14 +472,40 @@ export function Footer() {
               {/* Newsletter Signup */}
               <div className="mb-6">
                 <h4 className="font-semibold text-lg mb-3 text-orange-400">Stay Updated</h4>
-                <div className="flex gap-2">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="newsletter-input flex-1 px-4 py-2 rounded-lg"
-                  />
-                  <button className="newsletter-button px-6 py-2 rounded-lg font-medium">Subscribe</button>
-                </div>
+                <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      value={newsletterEmail}
+                      onChange={handleEmailChange}
+                      placeholder="Enter your email"
+                      className={`newsletter-input flex-1 px-4 py-2 rounded-lg ${
+                        submitMessage.includes("❌") || submitMessage.includes("Please enter") ? "error" : ""
+                      }`}
+                      disabled={isSubmitting}
+                      required
+                    />
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !newsletterEmail.trim()}
+                      className="newsletter-button px-6 py-2 rounded-lg font-medium flex items-center"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="loading-spinner"></div>
+                          Subscribing...
+                        </>
+                      ) : (
+                        "Subscribe"
+                      )}
+                    </button>
+                  </div>
+                  {submitMessage && (
+                    <p className={`newsletter-message ${submitMessage.includes("✅") ? "success" : "error"}`}>
+                      {submitMessage}
+                    </p>
+                  )}
+                </form>
               </div>
 
               {/* Social Media */}
@@ -345,7 +514,6 @@ export function Footer() {
                   { icon: Facebook, href: "#", label: "Facebook" },
                   { icon: Twitter, href: "#", label: "Twitter" },
                   { icon: Instagram, href: "#", label: "Instagram" },
-                  
                 ].map((social, index) => (
                   <a
                     key={index}
