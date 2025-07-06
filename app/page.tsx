@@ -668,7 +668,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2">
             <Zap className="w-5 h-5 text-orange-400" />
             <div>
-              <div className="font-bold text-lg">15+</div>
+              <div className="font-bold text-lg">10+</div>
               <div className="text-xs opacity-80">Years</div>
             </div>
           </div>
@@ -754,7 +754,7 @@ export default function HomePage() {
 
               <div className="space-y-4 text-lg text-slate-600">
                 <p>
-                  With over 20 years of experience in the construction industry, Kevin Muchiri founded BuildCraft with a
+                  With over 10 years of experience in the construction industry, <strong>Kevin Muchiri</strong> founded <strong>BuildCraft</strong> with a
                   vision to transform how construction projects are delivered. His passion for excellence and commitment
                   to quality has made BuildCraft a trusted name in the industry.
                 </p>
@@ -774,7 +774,7 @@ export default function HomePage() {
                   <div className="text-slate-600">Projects Completed</div>
                 </div>
                 <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
-                  <div className="text-2xl font-bold text-orange-600">20+</div>
+                  <div className="text-2xl font-bold text-orange-600">10+</div>
                   <div className="text-slate-600">Years Experience</div>
                 </div>
                 <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
@@ -1066,7 +1066,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-4 gap-8 scroll-animate">
             {[
               { number: "500+", label: "Projects Completed", icon: "🏗️" },
-              { number: "15+", label: "Years Experience", icon: "⭐" },
+              { number: "10+", label: "Years Experience", icon: "⭐" },
               { number: "98%", label: "Client Satisfaction", icon: "😊" },
               { number: "50+", label: "Team Members", icon: "👥" },
             ].map((stat, index) => (
