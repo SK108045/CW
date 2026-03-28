@@ -10,12 +10,10 @@ import { useEffect, useState } from "react"
 // IMAGE URLS - REPLACE WITH YOUR FIREBASE URLS
 const IMAGE_URLS = {
   // Our Story Section
-  ourStoryImage: "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FStory.png?alt=media&token=cae10c01-4051-4870-bbdc-9e3787454134", // Replace with company history/team image
+  ourStoryImage: "/Story.png", // Replace with company history/team image
 
   // Team Section
-  kevinMuchiri: "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FKevinMuchiri.png?alt=media&token=690b045e-6057-418a-8401-5af71ef0dcc9", // Replace with Kevin Muchiri photo
-  teamMember2: "/placeholder.svg?height=300&width=300", // Replace with Lead Architect photo
-  teamMember3: "/placeholder.svg?height=300&width=300", // Replace with Construction Manager photo
+  kevinMuchiri: "/KevinMuchiri.png",
 }
 
 export default function AboutPage() {
@@ -189,45 +187,24 @@ export default function AboutPage() {
               Experienced professionals dedicated to bringing your vision to life
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Kevin Muchiri",
-                role: "Founder & CEO",
-                experience: "20+ years",
-                image: IMAGE_URLS.kevinMuchiri,
-              },
-              {
-                name: "Name 2",
-                role: "Lead Architect",
-                experience: "15+ years",
-                image: IMAGE_URLS.teamMember2,
-              },
-              {
-                name: "Name 3",
-                role: "Construction Manager",
-                experience: "18+ years",
-                image: IMAGE_URLS.teamMember3,
-              },
-            ].map((member, index) => (
-              <Card key={index} className={`text-center card-hover scroll-animate stagger-${index + 1}`}>
-                <CardHeader>
-                  <div className="relative mx-auto w-32 h-32 mb-4">
-                    <Image
-                      src={member.image || "/placeholder.svg"}
-                      alt={`${member.name} - ${member.role} at BuildCraft`}
-                      fill
-                      className="rounded-full object-cover hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardTitle>{member.name}</CardTitle>
-                  <CardDescription className="text-orange-500 font-semibold">{member.role}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-600">{member.experience} of experience</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="flex justify-center">
+            <Card className="text-center card-hover scroll-animate w-full max-w-xs">
+              <CardHeader>
+                <div className="relative mx-auto w-32 h-32 mb-4">
+                  <Image
+                    src={IMAGE_URLS.kevinMuchiri || "/placeholder.svg"}
+                    alt="Kevin Muchiri - Founder & CEO at BuildCraft"
+                    fill
+                    className="rounded-full object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <CardTitle>Kevin Muchiri</CardTitle>
+                <CardDescription className="text-orange-500 font-semibold">Founder & CEO</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600">20+ years of experience</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

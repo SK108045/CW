@@ -8,33 +8,22 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-// IMAGE URLS - REPLACE WITH YOUR FIREBASE URLS
+// IMAGE URLS - Local images from /public folder
 const IMAGE_URLS = {
   // Featured Products Section
-  naturalStone:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FNaturalStone.jpg?alt=media&token=aa1441f8-a195-4b35-938d-d46e2a4ba355", // Natural stone showcase
-  engineeredStone:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FEngineeredStone.jpg?alt=media&token=dcd3316c-5f25-44a2-94c7-86ed07bb9fb6", // Engineered stone showcase
-  decorativeStone:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FDecorativeStone.jpg?alt=media&token=5ee46982-c8d6-4ee0-b123-ec5fc54dd3bc", // Decorative stone showcase
+  naturalStone: "/NaturalStone.jpg", // Natural stone showcase
+  engineeredStone: "/EngineeredStone.jpg", // Engineered stone showcase
+  decorativeStone: "/DecorativeStone.jpg", // Decorative stone showcase
 
   // Product Categories
-  granite:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FGranite.jpg?alt=media&token=f582e4b0-0016-4204-aeaa-86cb047692f9", // Granite samples
-  marble:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FMarble.jpg?alt=media&token=193498d8-3176-45cd-a15d-4661ecfab1fe", // Marble samples
-  limestone:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FLimeStone.jpg?alt=media&token=599e23ba-7478-42a2-9a2e-3e8183066bae", // Limestone samples
-  quartz:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FQuartz.jpg?alt=media&token=753e5d19-3960-4a6f-a8fa-3c261633ca19", // Quartz samples
-  sandstone:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FSandStone.jpg?alt=media&token=ee99aca6-4023-4b91-a90f-225d1a80309b", // Sandstone samples
-  slate:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FSlateStone.jpg?alt=media&token=7865c60c-aad7-4a7f-b901-e476f732dc9a", // Slate samples
-  travertine:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FTravertineStone.jpg?alt=media&token=7b8a10f3-0580-4b78-b068-94f4b7ce81ba", // Travertine samples
-  riverRock:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Products%2FRiverRock.webp?alt=media&token=491963d7-fbbe-4e6d-8d9d-cfac870cb8f2", // River rock samples
+  granite: "/Granite.jpg", // Granite samples
+  marble: "/Marble.jpg", // Marble samples
+  limestone: "/LimeStone.jpg", // Limestone samples
+  quartz: "/Quartz.jpg", // Quartz samples
+  sandstone: "/SandStone.jpg", // Sandstone samples
+  slate: "/SlateStone.jpg", // Slate samples
+  travertine: "/TravertineStone.jpg", // Travertine samples
+  riverRock: "/RiverRock.webp", // River rock samples
 }
 
 export default function ProductsPage() {

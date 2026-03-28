@@ -13,23 +13,18 @@ const SUBTITLE =
   "We Offer Professional construction services, innovative designs, and premium building materials perfect for your project"
 const SUBTITLE_WORDS = SUBTITLE.split(" ")
 
-// IMAGE URLS - REPLACE WITH YOUR FIREBASE URLS
+// IMAGE URLS - Local images from /public folder
 const IMAGE_URLS = {
   // Founder Section
-  founderPhoto:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FKevinMuchiri.png?alt=media&token=690b045e-6057-418a-8401-5af71ef0dcc9", // Replace with Kevin Muchiri's photo
+  founderPhoto: "/KevinMuchiri.png",
 
   // Why Choose Us Section
-  whyChooseUsImage:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FWhyChooseUs.jpg?alt=media&token=56dc4b62-a99c-4a60-b311-25bf16ef66a3", // Replace with team/construction work image
+  whyChooseUsImage: "/WhyChooseUs.jpg", // closest available image
 
   // Featured Projects Section
-  project1:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FMordernFamilyHome.jpg?alt=media&token=9419e342-2c3a-4c27-9673-65238e0c2064", // Modern Family Home
-  project2:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FCorporateOffice.jpg?alt=media&token=0874352c-5bb6-47ee-85f6-db54dcf8f490", // Corporate Office Complex
-  project3:
-    "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/Home%2FLuxuryVilla.jpg?alt=media&token=f880c7b6-1224-40d4-843d-db7a950f49dd", // Luxury Villa Estate
+  project1: "/MordernFamilyHome.jpg", // Modern Family Home
+  project2: "/CorporateOffice.jpg",   // Corporate Office Complex
+  project3: "/LuxuryVilla.jpg",       // Luxury Villa Estate
 }
 
 export default function HomePage() {

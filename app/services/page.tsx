@@ -1,21 +1,14 @@
 "use client"
 
-import { Hammer, Home, Palette, Users, CheckCircle, ArrowRight, Play, Pause, X, Maximize2 } from "lucide-react"
+import { Hammer, Home, Palette, Users, CheckCircle, ArrowRight } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 
 export default function ServicesPage() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [playingVideo, setPlayingVideo] = useState<number | null>(null)
-  const [modalVideo, setModalVideo] = useState<number | null>(null)
-  const [isModalPlaying, setIsModalPlaying] = useState(false)
-  const [videoError, setVideoError] = useState<number | null>(null)
-  const [videoLoading, setVideoLoading] = useState<number | null>(null)
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
-  const modalVideoRef = useRef<HTMLVideoElement | null>(null)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -37,118 +30,10 @@ export default function ServicesPage() {
       observer.observe(el)
     })
 
-    // Handle escape key to close modal
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeModal()
-      }
-    }
-
-    document.addEventListener("keydown", handleEscape)
-
     return () => {
       observer.disconnect()
-      document.removeEventListener("keydown", handleEscape)
     }
   }, [])
-
-  // Video data with Firebase URLs and custom poster images
-  const videoData = [
-    {
-      src: "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/videos%2FVid1.mp4?alt=media&token=1c8d1143-a642-43e0-a814-3468eae480bc",
-      poster:
-        "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/thumbnails%2Fvid1-thumbnail.png?alt=media&token=c2d9c10a-58a4-47a5-b02f-c0d796e95013",
-      title: "Construction Process",
-      description: "Professional Building Techniques",
-      fullDescription:
-        "Watch our expert team demonstrate professional construction techniques. This video showcases our attention to detail and commitment to excellence in every project.",
-      size: "5.97 MB",
-      duration: "Construction Time-lapse",
-    },
-    {
-      src: "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/videos%2FVid2.mp4?alt=media&token=eea75842-2cb1-4ca9-8717-68ba33ebe2f6",
-      poster:
-        "https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/thumbnails%2Fvid2-thumbnail.png?alt=media&token=5f89ee86-e822-474b-aa91-2a28a53bf5ef",
-      title: "Expert Craftsmanship",
-      description: "Detailed Construction Work",
-      fullDescription:
-        "See our team at work, demonstrating the precision and expertise that sets BuildCraft apart in the construction industry. Every detail matters in our approach to building excellence.",
-      size: "6.48 MB",
-      duration: "Professional Showcase",
-    },
-  ]
-
-  const handleVideoPlay = (index: number) => {
-    // Always open modal for all screen sizes
-    openModal(index)
-  }
-
-  const openModal = (index: number) => {
-    setModalVideo(index)
-    setPlayingVideo(null)
-    setVideoError(null)
-    setVideoLoading(null)
-    // Pause all inline videos
-    videoRefs.current.forEach((video) => {
-      if (video) {
-        video.pause()
-      }
-    })
-    // Prevent body scroll
-    document.body.style.overflow = "hidden"
-  }
-
-  const closeModal = () => {
-    if (modalVideoRef.current) {
-      modalVideoRef.current.pause()
-    }
-    setModalVideo(null)
-    setIsModalPlaying(false)
-    setVideoError(null)
-    setVideoLoading(null)
-    // Restore body scroll
-    document.body.style.overflow = "unset"
-  }
-
-  const toggleModalVideo = () => {
-    if (modalVideoRef.current) {
-      if (modalVideoRef.current.paused) {
-        setVideoLoading(modalVideo)
-        modalVideoRef.current
-          .play()
-          .then(() => {
-            setIsModalPlaying(true)
-            setVideoLoading(null)
-          })
-          .catch((error) => {
-            console.error("Error playing modal video:", error)
-            setVideoError(modalVideo)
-            setVideoLoading(null)
-          })
-      } else {
-        modalVideoRef.current.pause()
-        setIsModalPlaying(false)
-      }
-    }
-  }
-
-  const handleVideoEnd = () => {
-    setPlayingVideo(null)
-  }
-
-  const handleModalVideoEnd = () => {
-    setIsModalPlaying(false)
-  }
-
-  const handleVideoError = (index: number) => {
-    console.error(`Error loading video ${index}`)
-    setVideoError(index)
-    setVideoLoading(null)
-  }
-
-  const handleVideoLoadStart = (index: number) => {
-    setVideoError(null)
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -465,72 +350,6 @@ export default function ServicesPage() {
         .stagger-5 { animation-delay: 0.5s; }
       `}</style>
 
-      {/* Video Modal */}
-      {modalVideo !== null && (
-        <div className="video-modal" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeModal}>
-              <X className="w-5 h-5 text-white" />
-            </button>
-
-            <video
-              ref={modalVideoRef}
-              className="modal-video"
-              onEnded={handleModalVideoEnd}
-              onError={() => handleVideoError(modalVideo)}
-              onLoadStart={() => handleVideoLoadStart(modalVideo)}
-              poster={videoData[modalVideo].poster}
-              onClick={toggleModalVideo}
-              preload="metadata"
-            >
-              <source src={videoData[modalVideo].src} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-
-            {/* Modal Loading State */}
-            {videoLoading === modalVideo && (
-              <div className="video-loading">
-                <div className="loading-spinner"></div>
-                <p>Loading video...</p>
-              </div>
-            )}
-
-            {/* Modal Error State */}
-            {videoError === modalVideo && (
-              <div className="video-error">
-                <p>Unable to load video</p>
-                <p className="text-xs mt-1">Please check your connection</p>
-                <button
-                  onClick={() => {
-                    setVideoError(null)
-                    toggleModalVideo()
-                  }}
-                  className="mt-2 px-3 py-1 bg-white text-red-600 rounded text-xs hover:bg-gray-100"
-                >
-                  Retry
-                </button>
-              </div>
-            )}
-
-            {!isModalPlaying && videoError !== modalVideo && videoLoading !== modalVideo && (
-              <button className="modal-play-button" onClick={toggleModalVideo}>
-                <Play className="w-8 h-8 text-white ml-1" />
-              </button>
-            )}
-
-            <div className="modal-controls">
-              <h3 className="text-2xl font-bold mb-2">{videoData[modalVideo].title}</h3>
-              <p className="text-gray-300 mb-2">{videoData[modalVideo].description}</p>
-              <p className="text-gray-400 text-sm mb-2">{videoData[modalVideo].fullDescription}</p>
-              <div className="flex items-center gap-4 text-xs text-gray-500">
-                {/*<span>Size: {videoData[modalVideo].size}</span>
-                <span>•</span>*/}
-                <span>{videoData[modalVideo].duration}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Hero Section */}
       <section className="bg-slate-900 text-white py-20">
@@ -558,7 +377,7 @@ export default function ServicesPage() {
             <div className="media-item rounded-2xl overflow-hidden bg-white shadow-lg scroll-animate stagger-1">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/thumbnails%2FImage1.png?alt=media&token=bf877912-55b3-4895-9de1-3fdae8d730f4"
+                  src="/Image1.png"
                   alt="Foundation work in progress"
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-110"
@@ -572,82 +391,29 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            {/* Video 1 with Custom Poster */}
+            {/* Image 2 - replaces Video 1 */}
             <div className="media-item rounded-2xl overflow-hidden bg-white shadow-lg scroll-animate stagger-2">
-              <div className="video-container relative h-64">
-                <video
-                  ref={(el) => (videoRefs.current[0] = el)}
-                  className="w-full h-full object-cover"
-                  onEnded={handleVideoEnd}
-                  onError={() => handleVideoError(0)}
-                  onLoadStart={() => handleVideoLoadStart(0)}
-                  poster={videoData[0].poster}
-                  preload="metadata"
-                >
-                  <source src={videoData[0].src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-
-                {/* Duration Badge */}
-                <div className="video-duration">{videoData[0].duration}</div>
-
-                {/* Loading State */}
-                {videoLoading === 0 && (
-                  <div className="video-loading">
-                    <div className="loading-spinner"></div>
-                    <p>Loading...</p>
-                  </div>
-                )}
-
-                {/* Error message */}
-                {videoError === 0 && (
-                  <div className="video-error">
-                    <p>Unable to load video</p>
-                    <button
-                      onClick={() => {
-                        setVideoError(null)
-                        handleVideoPlay(0)
-                      }}
-                      className="mt-2 px-3 py-1 bg-white text-red-600 rounded text-xs hover:bg-gray-100"
-                    >
-                      Retry
-                    </button>
-                  </div>
-                )}
-
-                {/* Expand button for all devices */}
-                {videoError !== 0 && videoLoading !== 0 && (
-                  <button className="expand-button flex" onClick={() => openModal(0)}>
-                    <Maximize2 className="w-5 h-5 text-white" />
-                  </button>
-                )}
-
-                {/* Play/Pause button */}
-                {videoError !== 0 && videoLoading !== 0 && playingVideo !== 0 && (
-                  <div className="play-button" onClick={() => handleVideoPlay(0)}>
-                    <Play className="w-6 h-6 text-white ml-1" />
-                  </div>
-                )}
-                {videoError !== 0 && videoLoading !== 0 && playingVideo === 0 && (
-                  <div className="play-button" onClick={() => handleVideoPlay(0)}>
-                    <Pause className="w-6 h-6 text-white" />
-                  </div>
-                )}
-
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/Construction.jpg"
+                  alt="Construction process"
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-110"
+                />
                 <div className="media-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
                   <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="font-bold text-lg">{videoData[0].title}</h3>
-                    <p className="text-sm text-gray-200">{videoData[0].description}</p>
+                    <h3 className="font-bold text-lg">Construction Process</h3>
+                    <p className="text-sm text-gray-200">Professional Building Techniques</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Image 2 */}
+            {/* Image 3 */}
             <div className="media-item rounded-2xl overflow-hidden bg-white shadow-lg scroll-animate stagger-3">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/thumbnails%2FRoomInstallation.jpg?alt=media&token=b7401e2c-dd73-4e3a-9465-37b7e6cc6ad7"
+                  src="/RoomInstallation.jpg"
                   alt="Room installation"
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-110"
@@ -661,11 +427,11 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            {/* Image 3 */}
+            {/* Image 4 */}
             <div className="media-item rounded-2xl overflow-hidden bg-white shadow-lg scroll-animate stagger-4">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/thumbnails%2FInteriorDesign.jpg?alt=media&token=cee7f9f8-88b4-4fe7-a8b7-1754c3d204ba"
+                  src="/InteriorDesign.jpg"
                   alt="Interior finishing work"
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-110"
@@ -679,72 +445,19 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            {/* Video 2 with Custom Poster */}
+            {/* Image 5 - replaces Video 2 */}
             <div className="media-item rounded-2xl overflow-hidden bg-white shadow-lg scroll-animate stagger-5">
-              <div className="video-container relative h-64">
-                <video
-                  ref={(el) => (videoRefs.current[1] = el)}
-                  className="w-full h-full object-cover"
-                  onEnded={handleVideoEnd}
-                  onError={() => handleVideoError(1)}
-                  onLoadStart={() => handleVideoLoadStart(1)}
-                  poster={videoData[1].poster}
-                  preload="metadata"
-                >
-                  <source src={videoData[1].src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-
-                {/* Duration Badge */}
-                <div className="video-duration">{videoData[1].duration}</div>
-
-                {/* Loading State */}
-                {videoLoading === 1 && (
-                  <div className="video-loading">
-                    <div className="loading-spinner"></div>
-                    <p>Loading...</p>
-                  </div>
-                )}
-
-                {/* Error message */}
-                {videoError === 1 && (
-                  <div className="video-error">
-                    <p>Unable to load video</p>
-                    <button
-                      onClick={() => {
-                        setVideoError(null)
-                        handleVideoPlay(1)
-                      }}
-                      className="mt-2 px-3 py-1 bg-white text-red-600 rounded text-xs hover:bg-gray-100"
-                    >
-                      Retry
-                    </button>
-                  </div>
-                )}
-
-                {/* Expand button for all devices */}
-                {videoError !== 1 && videoLoading !== 1 && (
-                  <button className="expand-button flex" onClick={() => openModal(1)}>
-                    <Maximize2 className="w-5 h-5 text-white" />
-                  </button>
-                )}
-
-                {/* Play/Pause button */}
-                {videoError !== 1 && videoLoading !== 1 && playingVideo !== 1 && (
-                  <div className="play-button" onClick={() => handleVideoPlay(1)}>
-                    <Play className="w-6 h-6 text-white ml-1" />
-                  </div>
-                )}
-                {videoError !== 1 && videoLoading !== 1 && playingVideo === 1 && (
-                  <div className="play-button" onClick={() => handleVideoPlay(1)}>
-                    <Pause className="w-6 h-6 text-white" />
-                  </div>
-                )}
-
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/Contracting.jpg"
+                  alt="Expert craftsmanship"
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-110"
+                />
                 <div className="media-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
                   <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="font-bold text-lg">{videoData[1].title}</h3>
-                    <p className="text-sm text-gray-200">{videoData[1].description}</p>
+                    <h3 className="font-bold text-lg">Expert Craftsmanship</h3>
+                    <p className="text-sm text-gray-200">Detailed Construction Work</p>
                   </div>
                 </div>
               </div>
@@ -806,7 +519,7 @@ export default function ServicesPage() {
               </div>
               <div className="relative">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/pics%2FDesignServices.jpg?alt=media&token=e9df4b36-a34f-4dd7-ab45-0be111b86031"
+                  src="/DesignServices.jpg"
                   alt="Design Services - Architectural planning and 3D modeling"
                   width={600}
                   height={400}
@@ -819,7 +532,7 @@ export default function ServicesPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center scroll-animate">
               <div className="order-2 md:order-1 relative">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/pics%2FConstruction.jpg?alt=media&token=58d59869-de93-434d-be75-2cef7ecbb013"
+                  src="/Construction.jpg"
                   alt="Construction Services - Professional building and structural work"
                   width={600}
                   height={400}
@@ -897,7 +610,7 @@ export default function ServicesPage() {
               </div>
               <div className="relative">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/pics%2FHouseDesign.png?alt=media&token=e9b068f6-930d-41b5-adad-5d35d8f4216d"
+                  src="/HouseDesign.png"
                   alt="House Design - Custom residential home design and planning"
                   width={600}
                   height={400}
@@ -910,7 +623,7 @@ export default function ServicesPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center scroll-animate">
               <div className="order-2 md:order-1 relative">
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/test-3a5ee.appspot.com/o/pics%2FContracting.jpg?alt=media&token=efa01601-ffab-4c04-b48a-b48167c9a305"
+                  src="/Contracting.jpg"
                   alt="Contracting Services - Project management and coordination"
                   width={600}
                   height={400}
