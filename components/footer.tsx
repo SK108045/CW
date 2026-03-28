@@ -97,6 +97,12 @@ export function Footer() {
     }
 
     setIsSubmitting(true)
+    const timeoutId = setTimeout(() => {
+      setIsSubmitting(false)
+      setSubmitMessage("❌ Request timed out. Please try again.")
+      setTimeout(() => setSubmitMessage(""), 5000)
+    }, 10000) // 10 second timeout
+
     try {
       const newsletterRef = ref(db, "newsletter-subscriptions")
       await push(newsletterRef, {
@@ -107,15 +113,28 @@ export function Footer() {
         userAgent: navigator.userAgent,
       })
 
+      clearTimeout(timeoutId)
       setSubmitMessage("✅ Successfully subscribed!")
       setNewsletterEmail("")
       setTimeout(() => setSubmitMessage(""), 5000)
     } catch (err) {
-      console.error("Newsletter subscription error:", err)
-      setSubmitMessage("❌ Something went wrong. Please try again.")
+      clearTimeout(timeoutId)
+      console.error("[v0] Newsletter subscription error:", err)
+      
+      // Provide more specific error messages
+      let errorMessage = "❌ Something went wrong. Please try again."
+      if (err instanceof Error) {
+        if (err.message.includes("Permission denied")) {
+          errorMessage = "❌ Database permission error. Please contact support."
+        } else if (err.message.includes("Network")) {
+          errorMessage = "❌ Network error. Please check your connection."
+        }
+      }
+      setSubmitMessage(errorMessage)
       setTimeout(() => setSubmitMessage(""), 5000)
     } finally {
       setIsSubmitting(false)
+      clearTimeout(timeoutId)
     }
   }
 
